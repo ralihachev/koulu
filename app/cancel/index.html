@@ -1,0 +1,26 @@
+<div class="form-container">
+    <h2>Cancel a bus</h2>
+    <p>In a case you need to cancel a bus for a particular days (children is sick, leaving for vacation etc.) you can leave a request here.</p>
+
+    <form method="post">
+        <div class="form-group">
+            <label for="homeaddress">Home address</label>
+            <input type="text" name="homeaddress" id="homeaddress" class="form-control" ng-model="vm.user.homeaddress" required />
+        </div>
+        <div class="form-group">
+            <label for="dateFrom">Date from</label>
+            <input type="date" name="dateFrom" id="dateFrom" class="form-control" value="" ng-model="vm.user.cancelfrom" required />
+        </div>
+        <div class="form-group">
+            <label for="dateTo">Date to (incl.)</label>
+            <input type="date" name="dateTo" id="dateTo" class="form-control" value="" ng-model="vm.user.cancelto" required />
+        </div>
+        <div class="form-group">
+            <label for="kidsNumber">For how many kids you are cancelling?</label>
+            <input type="number" name="kidsNumber" id="kidsNumber" class="form-control" value="" ng-model="vm.user.cancelkidsnumber" required />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary" ng-click="vm.cancelBus()">Submit</button>
+        </div>
+    </form>
+</div>

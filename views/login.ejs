@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style type="text/css">
+        body {
+            padding-top: 100px;
+        }
+
+        .form-container {
+            width: 400px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Login</h2>
+        <% if(locals.error) { %>
+        <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+        <% if(locals.success) { %>
+        <div class="alert alert-success"><%= success %></div>
+        <% } %>
+        <form method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username" value="<%= locals.username || '' %>" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Login</button>
+                <a href="/register" class="btn btn-link">Register</a>
+                <a href="/" class="btn btn-link">Go to homepage</a>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
