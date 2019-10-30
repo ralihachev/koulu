@@ -18,20 +18,6 @@
                 controllerAs: 'vm',
                 data: { activeTab: 'home' }
             })
-            .state('account', {
-                url: '/account',
-                templateUrl: 'account/index.html',
-                controller: 'Account.IndexController',
-                controllerAs: 'vm',
-                data: { activeTab: 'account' }
-            })
-            .state('cancellation', {
-                url: '/cancellation',
-                templateUrl: 'cancel/index.html',
-                controller: 'Cancel.IndexController',
-                controllerAs: 'vm',
-                data: { activeTab: 'cancellation' }
-            });
     }
 
     function run($http, $rootScope, $window) {

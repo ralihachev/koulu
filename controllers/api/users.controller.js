@@ -9,12 +9,15 @@ router.get('/current', getCurrentUser);
 router.put('/:_id', updateUser);
 router.delete('/:_id', deleteUser);
 router.post('/cancellation', cancelBus);
+router.post('/addPupil', add_pupil);
+router.get('/GetPupil', GetPupil);
 
 module.exports = router;
 
 
 function authenticateUser (req, res){
-    userService.authenticate(req.body.username, req.body.password)
+
+    userService.authenticate(req.body.username, req.body.password, req.body.loginPerson)
         .then(function(token){
             if (token) {
                 res.send({token: token})
@@ -51,11 +54,23 @@ function getCurrentUser (req, res){
         })
 }
 
+
+function GetPupil (req, res){
+
+    userService.GetPupil (req.user.sub)
+        .then(function (pupil){
+            res.send (pupil)
+        })
+        .catch(function(err){
+            res.status(400).send(err);
+        })
+}
+
+
+
 function updateUser (req, res){
-    var userId = req.user.sub;
-    if (req.params._id !== userId){
-        return res.status(401).send('You can only update your own profile')
-    }
+
+    var userId = req.params._id;
 
     userService.update(userId, req.body)
         .then(function(){
@@ -83,6 +98,16 @@ function deleteUser (req, res){
 
 function cancelBus (req, res){
     userService.cancelBus(req.body)
+        .then(function(){
+            res.sendStatus(200);
+        })
+        .catch(function(err){
+            res.status(400).send(err);
+        })
+}
+
+function add_pupil (req, res){
+    userService.add_pupil(req.body)
         .then(function(){
             res.sendStatus(200);
         })

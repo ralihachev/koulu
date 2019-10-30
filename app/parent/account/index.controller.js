@@ -6,20 +6,20 @@
         .controller('Account.IndexController', Controller);
     function Controller($window, UserService, FlashService){
         var vm = this;
-        vm.user = null;
+        vm.pupil = null;
         vm.saveUser = saveUser;
         initController();
 
         function initController(){
-            UserService.GetCurrent().then(function(user){
-                vm.user = user;
+            UserService.GetPupil().then(function(pupil){
+                vm.pupil = pupil[0];
             });
         }
 
         function saveUser(){
-            UserService.Update(vm.user)
+            UserService.Update(vm.pupil)
                 .then(function(){
-                    FlashService.Success('User updated');
+                    FlashService.Success('Pupil updated');
                 })
                 .catch(function(error){
                     FlashService.Error(error);

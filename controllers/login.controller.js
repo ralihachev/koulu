@@ -14,6 +14,8 @@ router.get('/', function(req, res){
 
 router.post('/', function(req, res){
 
+    var returnUrl;
+
     request.post({
         url: config.apiUrl + '/users/authenticate',
         form: req.body,
@@ -29,7 +31,11 @@ router.post('/', function(req, res){
 
         req.session.token = body.token;
 
-        var returnUrl = req.query.returnUrl && decodeURIComponent(req.query.returnUrl) || '/';
+        if (req.body.loginPerson === 'parent'){
+            returnUrl = '/app/parent';
+        } else {
+            returnUrl = '/app/teacher';
+        }
         res.redirect(returnUrl)
     })
 });

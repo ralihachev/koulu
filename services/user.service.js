@@ -7,7 +7,8 @@ var mongo = require('mongoskin');
 var db = mongo.db(config.connectionString, {native_parser: true});
 db.bind('users');
 db.bind('cancel');
-
+db.bind('teachers');
+db.bind('pupils');
 
 var service = {};
 
@@ -17,24 +18,41 @@ service.create = create;
 service.update = update;
 service.delete = _delete;
 service.cancelBus = cancelBus;
+service.add_pupil = add_pupil;
+service.GetPupil = GetPupil;
 
 module.exports = service;
 
-function authenticate (username, password){
+function authenticate (username, password, loginPerson){
     var deferred = Q.defer();
 
-    db.users.findOne({username: username}, function(err, user){
-        if (err) deferred.reject(err);
+    if (loginPerson === 'teacher') {
+        db.teachers.findOne({username: username}, function(err, user){
+            if (err) deferred.reject(err);
 
-        if(user && bcrypt.compareSync(password, user.hash)){
-            deferred.resolve(jwt.sign({sub: user._id}, config.secret));
-        } else {
-            deferred.resolve();
-        }
-    });
+            if(user && bcrypt.compareSync(password, user.hash)){
+                deferred.resolve(jwt.sign({sub: user._id}, config.secret));
+            } else {
+                deferred.resolve();
+            }
+        });
+    }
+    else {
+        db.users.findOne({username: username}, function(err, user){
+            if (err) deferred.reject(err);
+
+            if(user && bcrypt.compareSync(password, user.hash)){
+                deferred.resolve(jwt.sign({sub: user._id}, config.secret));
+            } else {
+                deferred.resolve();
+            }
+        });
+    }
 
     return deferred.promise;
 }
+
+
 function getById(_id){
     var deferred = Q.defer();
 
@@ -50,6 +68,34 @@ function getById(_id){
 
     return deferred.promise;
 }
+
+
+
+function GetPupil(_id) {
+    var deferred = Q.defer();
+
+    db.users.findById(_id, function (err, user){
+        if (err) deferred.reject(err);
+
+        get_pupil(user.identifier_for_parents);
+
+    });
+
+
+    function get_pupil(identifier_for_parents){
+        db.pupils.find({identifier_for_parents: identifier_for_parents}).toArray(function(err, pupil) {
+            if (err) deferred.reject(err);
+
+            if (pupil) {
+                deferred.resolve(pupil);
+            }
+        });
+    }
+
+    return deferred.promise;
+}
+
+
 
 function create (userParam) {
     var deferred = Q.defer();
@@ -70,12 +116,11 @@ function create (userParam) {
         var user = _.omit(userParam, 'password');
         user.hash = bcrypt.hashSync(userParam.password, 10);
 
-        db.users.insert(
-            user, function (err, doc) {
-                if (err) deferred.reject(err);
+        db.users.insert(user, function (err, doc) {
+            if (err) deferred.reject(err);
 
-                deferred.resolve();
-            });
+            deferred.resolve();
+        });
     }
 
     return deferred.promise;
@@ -84,46 +129,19 @@ function create (userParam) {
 function update (_id, userParam){
     var deferred = Q.defer();
 
-    db.users.findById(_id, function (err, user) {
-        if (err) deferred.reject(err);
+    var set = {
+        firstname: userParam.firstname,
+        lastname: userParam.lastname,
+        homeaddress: userParam.homeaddress
+    };
 
-        if (user.username !== userParam.username) {
-            db.users.findOne(
-                {username: userParam.username},
-                function (err, user) {
-                    if (err) deferred.reject(err);
-
-                    if (user) {
-                        deferred.reject('Username "' + req.body.username + '" is already taken');
-                    } else {
-                        updateUser();
-                    }
-                });
-        } else {
-            updateUser();
-        }
-    });
-
-
-    function updateUser(){
-        var set = {
-            firstName: userParam.firstName,
-            lastName: userParam.lastName,
-            username: userParam.username
-        };
-
-        if (userParam.password){
-            set.hash = bcrypt.hashSync(userParam.password, 10);
-        }
-
-        db.users.update(
-            {_id: mongo.helper.toObjectID(_id)},
-            {$set: set},
-            function (err, doc){
-                if (err) deferred.reject(err);
-                deferred.resolve();
-            });
-    }
+    db.pupils.update(
+        {_id: mongo.helper.toObjectID(_id)},
+        {$set: set},
+        function (err, doc){
+            if (err) deferred.reject(err);
+            deferred.resolve();
+        });
 
     return deferred.promise;
 }
@@ -151,6 +169,28 @@ function cancelBus(cancelParam){
     };
 
     db.cancel.insert(
+        set,
+        function (err, doc){
+            if (err) deferred.reject(err);
+            deferred.resolve();
+        }
+    );
+
+    return deferred.promise;
+}
+
+function add_pupil(pupil_details){
+    var deferred = Q.defer();
+
+    var set = {
+        firstname: pupil_details.firstname,
+        lastname: pupil_details.lastname,
+        homeaddress: pupil_details.homeaddress,
+        identifier_for_parents: pupil_details.identifier_for_parents
+
+    };
+
+    db.pupils.insert(
         set,
         function (err, doc){
             if (err) deferred.reject(err);

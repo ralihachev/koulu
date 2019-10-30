@@ -23,8 +23,7 @@ router.post('/', function(req, res){
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
                 username: req.body.username,
-                homeaddress: req.body.homeaddress,
-                kidsnumber: req.body.kidsnumber
+                identifier_for_parents: req.body.identifier_for_parents
             })
         }
 

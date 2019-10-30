@@ -14,8 +14,7 @@
         service.GetByUsername = GetByUsername;
         service.Create = Create;
         service.Update = Update;
-        service.Delete = Delete;
-        service.cancelBus = cancelBus;
+        service.add_pupil = add_pupil;
 
         return service;
 
@@ -44,13 +43,11 @@
             return $http.put('/api/users/' + user._id, user).then(handleSuccess, handleError);
         }
 
-        function Delete (_id){
-            return $http.get('/api/users/' + _id).then(handleSuccess, handleError);
+        function add_pupil(details){
+            return $http.post('/api/users/addPupil', details).then(handleSuccess, handleError)
         }
 
-        function cancelBus(cancel){
-            return $http.post('/api/users/cancellation', cancel).then(handleSuccess, handleError)
-        }
+
 
         function handleSuccess (res){
             return res.data;

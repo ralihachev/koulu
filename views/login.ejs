@@ -17,30 +17,42 @@
     </style>
 </head>
 <body>
-    <div class="form-container">
-        <h2>Login</h2>
-        <% if(locals.error) { %>
-        <div class="alert alert-danger"><%= error %></div>
-        <% } %>
-        <% if(locals.success) { %>
-        <div class="alert alert-success"><%= success %></div>
-        <% } %>
-        <form method="post">
-            <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" name="username" id="username" value="<%= locals.username || '' %>" class="form-control" />
-            </div>
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control" />
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Login</button>
-                <a href="/register" class="btn btn-link">Register</a>
-                <a href="/" class="btn btn-link">Go to homepage</a>
-            </div>
-        </form>
-    </div>
+        <div class="form-container">
+            <h2>Login</h2>
+            <% if(locals.error) { %>
+            <div class="alert alert-danger"><%= error %></div>
+            <% } %>
+            <% if(locals.success) { %>
+            <div class="alert alert-success"><%= success %></div>
+            <% } %>
+
+            <form method="post">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" value="<%= locals.username || '' %>" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="password">Login as:</label></br>
+                    <input type="radio" name="loginPerson" value="teacher"> Teacher<br>
+                    <input type="radio" name="loginPerson" value="parent"> Parent<br>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    <a href="/register" class="btn btn-link">Register (only for parents)</a>
+                </div>
+
+            </form>
+        </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
 </body>
 </html>
