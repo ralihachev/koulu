@@ -87,6 +87,7 @@ function GetPupil(_id) {
             if (err) deferred.reject(err);
 
             if (pupil) {
+
                 deferred.resolve(pupil);
             }
         });

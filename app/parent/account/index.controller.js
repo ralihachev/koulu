@@ -12,12 +12,12 @@
 
         function initController(){
             UserService.GetPupil().then(function(pupil){
-                vm.pupil = pupil[0];
+                vm.pupil = pupil;
             });
         }
 
-        function saveUser(){
-            UserService.Update(vm.pupil)
+        function saveUser(number){
+            UserService.Update(vm.pupil[number])
                 .then(function(){
                     FlashService.Success('Pupil updated');
                 })

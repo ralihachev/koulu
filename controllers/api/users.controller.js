@@ -71,6 +71,7 @@ function GetPupil (req, res){
 function updateUser (req, res){
 
     var userId = req.params._id;
+    console.log(req.params._id);
 
     userService.update(userId, req.body)
         .then(function(){

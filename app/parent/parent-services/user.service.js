@@ -45,7 +45,8 @@
             return $http.post('/api/users', user).then(handleSuccess, handleError);
         }
 
-        function Update (user){
+        function Update (user, number){
+            console.log(number);
             return $http.put('/api/users/' + user._id, user).then(handleSuccess, handleError);
         }
 
