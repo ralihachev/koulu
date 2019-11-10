@@ -1,0 +1,22 @@
+<form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" type="text" id="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" ng-click="vm.search()">Search</button>
+</form>
+<table class="table" id="pupil_table">
+    <thead>
+    <tr>
+        <th scope="col">Pupil's ID</th>
+        <th scope="col">Pick up address</th>
+        <th scope="col">School name</th>
+        <th scope="col">Pick up time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="pupil in vm.pupils">
+        <td>{{pupil.pupil_id}}</td>
+        <td>{{pupil.address_from}}</td>
+        <td>{{pupil.school_name}}</td>
+        <td>{{pupil.pick_up_time}}</td>
+    </tr>
+    </tbody>
+</table>

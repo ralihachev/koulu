@@ -20,6 +20,7 @@ service.delete = _delete;
 service.cancelBus = cancelBus;
 service.add_pupil = add_pupil;
 service.GetPupil = GetPupil;
+service.GetAllPupils = GetAllPupils;
 
 module.exports = service;
 
@@ -77,13 +78,13 @@ function GetPupil(_id) {
     db.users.findById(_id, function (err, user){
         if (err) deferred.reject(err);
 
-        get_pupil(user.identifier_for_parents);
+        get_pupil(user.phone_number);
 
     });
 
-
-    function get_pupil(identifier_for_parents){
-        db.pupils.find({identifier_for_parents: identifier_for_parents}).toArray(function(err, pupil) {
+    function get_pupil(phone_number){
+        db.pupils.find({
+            "$or":[{parent_one_phone: phone_number}, {parent_two_phone: phone_number}]}).toArray(function(err, pupil) {
             if (err) deferred.reject(err);
 
             if (pupil) {
@@ -92,6 +93,17 @@ function GetPupil(_id) {
             }
         });
     }
+
+    return deferred.promise;
+}
+
+function GetAllPupils () {
+    var deferred = Q.defer();
+
+    db.pupils.find({}).toArray(function(err, pupils){
+        if (err) deferred.reject(err);
+        deferred.resolve(pupils)
+    });
 
     return deferred.promise;
 }
@@ -131,9 +143,7 @@ function update (_id, userParam){
     var deferred = Q.defer();
 
     var set = {
-        firstname: userParam.firstname,
-        lastname: userParam.lastname,
-        homeaddress: userParam.homeaddress
+        address_from: userParam.address_from
     };
 
     db.pupils.update(
@@ -161,12 +171,14 @@ function _delete (_id){
 
 function cancelBus(cancelParam){
     var deferred = Q.defer();
+    var date = new Date ();
+    var time_of_cancellation = date.getDate()+'.'+(date.getMonth()+1)+'.'+date.getFullYear()+', '+date.getHours()+':'+date.getMinutes();
 
     var set = {
-        homeaddress: cancelParam.homeaddress,
-        cancelfrom: cancelParam.cancelfrom,
-        cancelto: cancelParam.cancelto,
-        cancelkidsnumber: cancelParam.cancelkidsnumber
+        pupil_id: cancelParam.pupil_id,
+        address_from: cancelParam.address_from,
+        number_of_days: cancelParam.number_of_days,
+        time_of_cancellation: time_of_cancellation
     };
 
     db.cancel.insert(
@@ -183,21 +195,43 @@ function cancelBus(cancelParam){
 function add_pupil(pupil_details){
     var deferred = Q.defer();
 
-    var set = {
-        firstname: pupil_details.firstname,
-        lastname: pupil_details.lastname,
-        homeaddress: pupil_details.homeaddress,
-        identifier_for_parents: pupil_details.identifier_for_parents
-
-    };
-
-    db.pupils.insert(
-        set,
-        function (err, doc){
+    db.pupils.findOne(
+        {pupil_id: pupil_details.pupil_id},
+        function(err, user){
             if (err) deferred.reject(err);
-            deferred.resolve();
-        }
-    );
+
+            if (user){
+                deferred.reject('Pupil ID "' + pupil_details.pupil_id + '" is already taken');
+            } else {
+                addPupil();
+            }
+        });
+
+    function addPupil(){
+        var date = new Date(pupil_details.pick_up_time);
+        var time = (date.getHours()+1)+':'+date.getMinutes();
+        var set = {
+            pupil_id: pupil_details.pupil_id,
+            address_from: pupil_details.address_from,
+            school_name: pupil_details.school_name,
+            pick_up_time: time,
+            extra_info: pupil_details.extra_info,
+            parent_one_phone: pupil_details.parent_one_phone,
+            parent_two_phone: pupil_details.parent_two_phone,
+            teacher_contact: pupil_details.teacher_contact,
+            pupil_class: pupil_details.pupil_class
+
+        };
+
+        db.pupils.insert(
+            set,
+            function (err, doc){
+                if (err) deferred.reject(err);
+                deferred.resolve();
+            }
+        );
+    }
+
 
     return deferred.promise;
 }

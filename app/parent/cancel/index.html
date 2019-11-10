@@ -3,24 +3,26 @@
     <p>In a case you need to cancel a bus for a particular days (children is sick, leaving for vacation etc.) you can leave a request here.</p>
 
     <form method="post">
-        <div class="form-group">
-            <label for="homeaddress">Home address</label>
-            <input type="text" name="homeaddress" id="homeaddress" class="form-control" ng-model="vm.user.homeaddress" required />
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" ng-repeat="pupil in vm.pupil">
+                <div class="form-group">
+                    <label for="pupil_id">Pupil ID</label>
+                    <input type="text" name="pupil_id" id="pupil_id" class="form-control" ng-model="pupil.pupil_id" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="homeaddress">Home address</label>
+                    <input type="text" name="homeaddress" id="homeaddress" class="form-control" ng-model="pupil.address_from" disabled />
+                </div>
+                <div class="form-group">
+                    <label for="number_of_days">For how many days are you cancelling?</label>
+                    <input type="number" name="number_of_days" id="number_of_days" class="form-control" ng-model="pupil.number_of_days"  />
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="vm.cancelBus($index)">Submit</button>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-            <label for="dateFrom">Date from</label>
-            <input type="date" name="dateFrom" id="dateFrom" class="form-control" value="" ng-model="vm.user.cancelfrom" required />
-        </div>
-        <div class="form-group">
-            <label for="dateTo">Date to (incl.)</label>
-            <input type="date" name="dateTo" id="dateTo" class="form-control" value="" ng-model="vm.user.cancelto" required />
-        </div>
-        <div class="form-group">
-            <label for="kidsNumber">For how many kids you are cancelling?</label>
-            <input type="number" name="kidsNumber" id="kidsNumber" class="form-control" value="" ng-model="vm.user.cancelkidsnumber" required />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" ng-click="vm.cancelBus()">Submit</button>
-        </div>
+
+
     </form>
 </div>

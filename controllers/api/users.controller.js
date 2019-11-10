@@ -11,6 +11,7 @@ router.delete('/:_id', deleteUser);
 router.post('/cancellation', cancelBus);
 router.post('/addPupil', add_pupil);
 router.get('/GetPupil', GetPupil);
+router.get('/allPupils', GetAllPupils);
 
 module.exports = router;
 
@@ -56,8 +57,7 @@ function getCurrentUser (req, res){
 
 
 function GetPupil (req, res){
-
-    userService.GetPupil (req.user.sub)
+    userService.GetPupil (req.user.sub)//passing parent id for further search in parent db for getting the phone number. The number is then used to connect parent with the pupil
         .then(function (pupil){
             res.send (pupil)
         })
@@ -66,6 +66,15 @@ function GetPupil (req, res){
         })
 }
 
+function GetAllPupils (req, res){
+    userService.GetAllPupils()
+        .then(function (pupil){
+            res.send(pupil)
+        })
+        .catch(function(err){
+            res.status(400).send(err)
+        })
+}
 
 
 function updateUser (req, res){

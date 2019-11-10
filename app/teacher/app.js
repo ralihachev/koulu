@@ -18,6 +18,13 @@
                 controllerAs: 'vm',
                 data: { activeTab: 'home' }
             })
+            .state('allPupils', {
+                url: '/allPupils',
+                templateUrl: 'allPupils/index.html',
+                controller: 'allPupils.IndexController',
+                controllerAs: 'vm',
+                data: { activeTab: 'allPupils' }
+            })
     }
 
     function run($http, $rootScope, $window) {

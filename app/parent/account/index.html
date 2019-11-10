@@ -2,24 +2,31 @@
 <h3>Modify it if needed.</h3>
 <div class="form-container">
     <form method="post" ng-repeat="pupil in vm.pupil">
-
-        <div class="form-group">
-            <label for="firstname">First name</label>
-            <input type="text" name="firstname" id="firstname" class="form-control" ng-model="pupil.firstname" required />
-        </div>
-        <div class="form-group">
-            <label for="lastName">Last name</label>
-            <input type="text" id="lastName" class="form-control" ng-model="pupil.lastname" required />
-        </div>
-
-        <div class="form-group">
-            <label for="homeaddress">Home address</label>
-            <input type="text" id="homeaddress" class="form-control" ng-model="pupil.homeaddress" required />
-        </div>
-
-        <div class="form-group" style="display: none">
-            <label for="pupil_id">Pupil id</label>
-            <input type="text" id="pupil_id" class="form-control" ng-model="pupil._id" required disabled />
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="pupil_id">Pupil id</label>
+                    <input type="text" id="pupil_id" class="form-control" ng-model="pupil.pupil_id" disabled />
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="address_from">Home address</label>
+                    <input type="text" id="address_from" class="form-control" ng-model="pupil.address_from" required />
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="school_name">School name</label>
+                    <input type="text" id="school_name" class="form-control" ng-model="pupil.school_name" disabled />
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="pupil_class">Pupil's class</label>
+                    <input type="text" id="pupil_class" class="form-control" ng-model="pupil.pupil_class" disabled />
+                </div>
+            </div>
         </div>
 
         <div class="form-group">

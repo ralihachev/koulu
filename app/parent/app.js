@@ -11,15 +11,8 @@
         $urlRouterProvider.otherwise("/");
 
         $stateProvider
-            .state('home', {
-                url: '/',
-                templateUrl: 'home/index.html',
-                controller: 'Home.IndexController',
-                controllerAs: 'vm',
-                data: { activeTab: 'parent/home' }
-            })
             .state('account', {
-                url: '/account',
+                url: '/',
                 templateUrl: 'account/index.html',
                 controller: 'Account.IndexController',
                 controllerAs: 'vm',

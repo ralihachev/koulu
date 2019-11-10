@@ -6,19 +6,20 @@
         .controller('Cancel.IndexController', Controller);
     function Controller($window, UserService, FlashService){
         var vm = this;
-        vm.user = null;
+        vm.pupil = null;
         vm.cancelBus = cancelBus;
+
         initController();
 
         function initController(){
-            UserService.GetCurrent().then(function(user){
-                vm.user = user;
+            UserService.GetPupil().then(function(pupil){
+                vm.pupil = pupil;
             });
         }
 
 
-        function cancelBus(){
-            UserService.cancelBus(vm.user)
+        function cancelBus(number){
+            UserService.cancelBus(vm.pupil[number])
                 .then(function(){
                     FlashService.Success('The cancellation is made');
                 })

@@ -9,7 +9,7 @@
         var service = {};
 
         service.GetCurrent = GetCurrent;
-        service.GetAll = GetAll;
+        service.GetAllPupils = GetAllPupils;
         service.GetById = GetById;
         service.GetByUsername = GetByUsername;
         service.Create = Create;
@@ -22,9 +22,8 @@
             return $http.get('/api/users/current').then(handleSuccess, handleError);
         }
 
-
-        function GetAll (){
-            return $http.get('/api/users').then(handleSuccess, handleError);
+        function GetAllPupils (){
+            return $http.get('/api/users/allPupils').then(handleSuccess, handleError);
         }
 
         function GetById (_id){

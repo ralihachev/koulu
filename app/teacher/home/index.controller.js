@@ -21,8 +21,8 @@
                 .catch(function(error){
                     FlashService.Error(error);
                 });
+            }
 
-        }
     }
 
 })();

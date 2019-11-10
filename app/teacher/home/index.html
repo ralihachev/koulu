@@ -1,25 +1,79 @@
 <div class="form-container">
     <h2>Add pupil to the database</h2>
-
     <form method="post">
-        <div class="form-group">
-            <label for="firstname">First name</label>
-            <input type="text" name="firstname" id="firstname" class="form-control" ng-model="vm.pupils.firstname" required />
-        </div>
-        <div class="form-group">
-            <label for="lastname">Last name</label>
-            <input type="text" name="lastname" id="lastname" class="form-control" value="" ng-model="vm.pupils.lastname" required />
-        </div>
-        <div class="form-group">
-            <label for="homeaddress">Home address</label>
-            <input type="text" name="homeaddress" id="homeaddress" class="form-control" value="" ng-model="vm.pupils.homeaddress" required />
-        </div>
-        <div class="form-group">
-            <label for="identifier_for_parents">Identifier for parents</label>
-            <input type="text" name="identifier_for_parents" id="identifier_for_parents" class="form-control" value="" ng-model="vm.pupils.identifier_for_parents" required />
-        </div>
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary" ng-click="vm.add_pupil()">Submit</button>
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="pupil_id">Pupil ID</label>
+                    <input type="text" name="pupil_id" id="pupil_id" class="form-control" ng-model="vm.pupils.pupil_id" required />
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="address_from">Pick up address</label>
+                    <input type="text" name="address_from" id="address_from" class="form-control" value="" ng-model="vm.pupils.address_from" required />
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="school_name">School name</label>
+                    <select name="school_name" id="school_name" class="form-control" ng-model="vm.pupils.school_name" required>
+                        <option value="school 1">School 1</option>
+                        <option value="school 2">School 2</option>
+                        <option value="school 3">School 3</option>
+                        <option value="school 4">School 4</option>
+                        <option value="school 5">School 5</option>
+                        <option value="school 6">School 6</option>
+                        <option value="school 7">School 7</option>
+                        <option value="school 8">School 8</option>
+                        <option value="school 9">School 9</option>
+                        <option value="school 10">School 10</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="pick_up_time">Pick up time</label>
+                    <input type="time" name="pick_up_time" id="pick_up_time" class="form-control" value="" ng-model="vm.pupils.pick_up_time" required />
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="extra_info">Extra info (optional)</label>
+                    <textarea  name="extra_info" id="extra_info" class="form-control" ng-model="vm.pupils.extra_info"></textarea>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="parent_one_phone">Parent 1 phone number</label>
+                    <input type="text" name="parent_one_phone" id="parent_one_phone" class="form-control" placeholder="+358xxxxxxxxx" value="" ng-model="vm.pupils.parent_one_phone" required />
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="parent_two_phone">Parent 2 phone number (if applied)</label>
+                    <input type="text" name="parent_two_phone" id="parent_two_phone" class="form-control" placeholder="+358xxxxxxxxx" value="" ng-model="vm.pupils.parent_two_phone" />
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="teacher_contact">Teacher contact phone</label>
+                    <input type="text" name="teacher_contact" id="teacher_contact" class="form-control" value="" placeholder="+358xxxxxxxxx" ng-model="vm.pupils.teacher_contact" required />
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <label for="pupil_class">Pupil's class</label>
+                    <input type="text" name="pupil_class" id="pupil_class" class="form-control" value="" ng-model="vm.pupils.pupil_class" required/>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary" ng-click="vm.add_pupil()">Submit</button>
+                    <input type="button" class="btn btn-secondary" value="Or import from CSV"/>
+                </div>
+            </div>
         </div>
     </form>
+
 </div>
