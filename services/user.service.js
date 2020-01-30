@@ -16,11 +16,11 @@ service.authenticate = authenticate;
 service.getById = getById;
 service.create = create;
 service.update = update;
-service.delete = _delete;
 service.cancelBus = cancelBus;
 service.add_pupil = add_pupil;
 service.GetPupil = GetPupil;
 service.GetAllPupils = GetAllPupils;
+service.add_pupils_from_file = add_pupils_from_file;
 
 module.exports = service;
 
@@ -38,7 +38,7 @@ function authenticate (username, password, loginPerson){
             }
         });
     }
-    else {
+    if (loginPerson === 'parent') {
         db.users.findOne({username: username}, function(err, user){
             if (err) deferred.reject(err);
 
@@ -143,7 +143,9 @@ function update (_id, userParam){
     var deferred = Q.defer();
 
     var set = {
-        address_from: userParam.address_from
+        address_from: userParam.address_from,
+        school_name: userParam.school_name,
+        pupil_class: userParam.pupil_class
     };
 
     db.pupils.update(
@@ -154,18 +156,6 @@ function update (_id, userParam){
             deferred.resolve();
         });
 
-    return deferred.promise;
-}
-
-function _delete (_id){
-    var deferred = Q.defer();
-     db.users.remove(
-         {_id: mongo.helper.toObjectID(_id)},
-         function (err){
-             if (err) deferred.reject (err);
-
-             deferred.resolve();
-         });
     return deferred.promise;
 }
 
@@ -208,13 +198,10 @@ function add_pupil(pupil_details){
         });
 
     function addPupil(){
-        var date = new Date(pupil_details.pick_up_time);
-        var time = (date.getHours()+1)+':'+date.getMinutes();
         var set = {
             pupil_id: pupil_details.pupil_id,
             address_from: pupil_details.address_from,
             school_name: pupil_details.school_name,
-            pick_up_time: time,
             extra_info: pupil_details.extra_info,
             parent_one_phone: pupil_details.parent_one_phone,
             parent_two_phone: pupil_details.parent_two_phone,
@@ -233,5 +220,16 @@ function add_pupil(pupil_details){
     }
 
 
+    return deferred.promise;
+}
+
+function add_pupils_from_file(file){
+    var deferred = Q.defer();
+    if (file){
+        console.log(file.name);
+        deferred.resolve();
+    } else {
+        deferred.reject();
+    }
     return deferred.promise;
 }

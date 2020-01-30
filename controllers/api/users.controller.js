@@ -1,5 +1,6 @@
 var config = require ('config.json');
 var express = require ('express');
+var multer = require ('multer');
 var router = express.Router();
 var userService = require ('services/user.service');
 
@@ -7,11 +8,11 @@ router.post('/authenticate', authenticateUser);
 router.post('/register', registerUser);
 router.get('/current', getCurrentUser);
 router.put('/:_id', updateUser);
-router.delete('/:_id', deleteUser);
 router.post('/cancellation', cancelBus);
 router.post('/addPupil', add_pupil);
 router.get('/GetPupil', GetPupil);
 router.get('/allPupils', GetAllPupils);
+router.post('/addPupilFromFile', add_pupils_from_file);
 
 module.exports = router;
 
@@ -80,7 +81,7 @@ function GetAllPupils (req, res){
 function updateUser (req, res){
 
     var userId = req.params._id;
-    console.log(req.params._id);
+    console.log(req.body);
 
     userService.update(userId, req.body)
         .then(function(){
@@ -91,20 +92,6 @@ function updateUser (req, res){
         })
 }
 
-function deleteUser (req, res){
-    var userId = req.user.sub;
-    if (req.params._id !== userId){
-        return res.status(401).send('You can only delete your own account')
-    }
-
-    userService.delete(userId)
-        .then(function(){
-            res.sendStatus(200)
-        })
-        .catch(function(err){
-            res.status(400)
-        })
-}
 
 function cancelBus (req, res){
     userService.cancelBus(req.body)
@@ -123,5 +110,15 @@ function add_pupil (req, res){
         })
         .catch(function(err){
             res.status(400).send(err);
+        })
+}
+
+function add_pupils_from_file(req, res){
+    userService.add_pupils_from_file(req.body)
+        .then(function(){
+            res.sendStatus(200);
+        })
+        .catch(function(err){
+            res.status(400).send(err)
         })
 }

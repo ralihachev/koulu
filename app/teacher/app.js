@@ -25,6 +25,13 @@
                 controllerAs: 'vm',
                 data: { activeTab: 'allPupils' }
             })
+            .state('timetable', {
+                url: '/timetable',
+                templateUrl: 'timetable/index.html',
+                controller: 'timetable.IndexController',
+                controllerAs: 'vm',
+                data: { activeTab: 'timetable' }
+            })
     }
 
     function run($http, $rootScope, $window) {

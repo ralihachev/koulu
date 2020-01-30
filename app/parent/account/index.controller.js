@@ -6,6 +6,7 @@
         .controller('Account.IndexController', Controller);
     function Controller($window, UserService, FlashService){
         var vm = this;
+
         vm.pupil = null;
         vm.saveUser = saveUser;
         initController();

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Koulu</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="../app/app-content/app.css" rel="stylesheet" />
 </head>
 <body class="container">
 <!-- header -->
@@ -21,8 +20,8 @@
             <ul class="navbar-nav ml-auto">
                 <li ng-class="{active: activeTab === 'home'}" class="nav-item"><a ui-sref="home" class="nav-link">Home</a></li>
                 <li ng-class="{active: activeTab === 'allPupils'}" class="nav-item"><a ui-sref="allPupils" class="nav-link">List of pupils</a></li>
+                <li ng-class="{active: activeTab === 'timetable'}" class="nav-item"><a ui-sref="timetable" class="nav-link">Timetable</a></li>
                 <li class="nav-item"><a href="/login" target="_self" class="nav-link">Logout</a></li>
-
             </ul>
         </div>
     </nav>
@@ -50,6 +49,7 @@
 <script src="app.js"></script>
 <script src="home/index.controller.js"></script>
 <script src="allPupils/index.controller.js"></script>
+<script src="timetable/index.controller.js"></script>
 <script src="teacher-services/user.service.js"></script>
 <script src="teacher-services/flash.service.js"></script>
 

@@ -8,15 +8,16 @@
         <th scope="col">Pupil's ID</th>
         <th scope="col">Pick up address</th>
         <th scope="col">School name</th>
-        <th scope="col">Pick up time</th>
+        <th scope="col">Class</th>
     </tr>
     </thead>
     <tbody>
     <tr ng-repeat="pupil in vm.pupils">
         <td>{{pupil.pupil_id}}</td>
-        <td>{{pupil.address_from}}</td>
-        <td>{{pupil.school_name}}</td>
-        <td>{{pupil.pick_up_time}}</td>
+        <td><input type="text" ng-model="pupil.address_from"></td>
+        <td><input type="text" ng-model="pupil.school_name"></td>
+        <td><input type="text" ng-model="pupil.pupil_class"></td>
+        <td><button class="btn btn-primary" ng-click="vm.update_pupil($index)">Update</button></td>
     </tr>
     </tbody>
 </table>

@@ -7,17 +7,23 @@
 
     function Controller (UserService, FlashService) {
         var vm = this;
-
         vm.pupils = null;
         vm.search = search;
-
+        vm.update_pupil = update_pupil;
         initController();
 
         function initController(){
             UserService.GetAllPupils().then(function(pupils){
-                var date = new Date('1970-01-01T04:30:00.000Z');
                 vm.pupils = pupils;
             });
+        }
+
+        function update_pupil(index){
+            UserService.Update(vm.pupils[index]).then(function(){
+                FlashService.Success('Pupil updated')
+            }).catch(function(error){
+                FlashService.Error(error);
+            })
         }
 
         function search() {
@@ -30,7 +36,7 @@
             tr = table.getElementsByTagName("tr");
 
             for (i = 0; i < tr.length; i++) {
-                td_school = tr[i].getElementsByTagName("td")[2];
+                td_school = tr[i].getElementsByTagName("td")[0];
                 if (td_school) {
                     txtValue = td_school.textContent || td_school.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
