@@ -28,7 +28,7 @@
             .state('timetable', {
                 url: '/timetable',
                 templateUrl: 'timetable/index.html',
-                controller: 'timetable.IndexController',
+                controller: 'Timetable.IndexController',
                 controllerAs: 'vm',
                 data: { activeTab: 'timetable' }
             })

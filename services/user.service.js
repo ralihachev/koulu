@@ -4,12 +4,15 @@ var jwt = require('jsonwebtoken');
 var bcrypt = require ('bcryptjs');
 var Q = require('q');
 var mongo = require('mongoskin');
+var formidable = require('formidable');
+var csv = require ('convert-csv-to-json');
+
 var db = mongo.db(config.connectionString, {native_parser: true});
 db.bind('users');
 db.bind('cancel');
 db.bind('teachers');
 db.bind('pupils');
-
+db.bind('timetable');
 var service = {};
 
 service.authenticate = authenticate;
@@ -21,6 +24,7 @@ service.add_pupil = add_pupil;
 service.GetPupil = GetPupil;
 service.GetAllPupils = GetAllPupils;
 service.add_pupils_from_file = add_pupils_from_file;
+service.add_timetable = add_timetable;
 
 module.exports = service;
 
@@ -38,7 +42,7 @@ function authenticate (username, password, loginPerson){
             }
         });
     }
-    if (loginPerson === 'parent') {
+    else if (loginPerson === 'parent') {
         db.users.findOne({username: username}, function(err, user){
             if (err) deferred.reject(err);
 
@@ -48,6 +52,9 @@ function authenticate (username, password, loginPerson){
                 deferred.resolve();
             }
         });
+    }
+    else {
+        deferred.reject('Please select who is logging in')
     }
 
     return deferred.promise;
@@ -225,11 +232,54 @@ function add_pupil(pupil_details){
 
 function add_pupils_from_file(file){
     var deferred = Q.defer();
-    if (file){
-        console.log(file.name);
-        deferred.resolve();
-    } else {
-        deferred.reject();
-    }
+
+    var form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.encoding = 'utf-8';
+    form.parse(file);
+
+    form.on('file', function(name, file, err){
+        if (err) {
+            console.log('Error uploading file');
+            deferred.reject(err)
+        }
+        else {
+            var json = csv.getJsonFromCsv(file.path);
+
+            db.pupils.insertMany(json, function(err, res){
+                if (err) deferred.reject();
+                console.log('Inserted from file');
+                deferred.resolve();
+            });
+        }
+
+    });
+
+    return deferred.promise;
+}
+
+function add_timetable(file){
+    var deferred = Q.defer();
+
+    var form = new formidable.IncomingForm();
+    form.keepExtensions = true;
+    form.encoding = 'utf-8';
+    form.parse(file);
+
+    form.on('file', function(name, file, err){
+        if (err){
+            console.log('Error uploading the timetable file');
+            deferred.reject(err);
+        } else {
+            var json = csv.getJsonFromCsv(file.path);
+
+            db.timetable.insertMany(json, function(err, res){
+                if (err) deferred.reject();
+                console.log('Inserting timetable from file');
+                deferred.resolve();
+            })
+        }
+    })
+
     return deferred.promise;
 }

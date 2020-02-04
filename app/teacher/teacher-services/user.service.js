@@ -13,6 +13,7 @@
         service.Update = Update;
         service.add_pupil = add_pupil;
         service.add_pupils_from_file = add_pupils_from_file;
+        service.add_timetable = add_timetable;
 
         return service;
 
@@ -33,7 +34,24 @@
         }
 
         function add_pupils_from_file(file){
-            return $http.post('/api/users/addPupilFromFile', file).then(handleSuccess, handleError)
+
+            var fd = new FormData();
+            fd.append('file', file);
+            console.log('Uploading file');
+
+            return $http.post('/api/users/addPupilFromFile', fd,
+                {transformRequest: angular.identity,
+                headers: {'Content-Type': undefined}}).then(handleSuccess, handleError)
+        }
+
+        function add_timetable(file){
+            var fd = new FormData();
+            fd.append('file', file);
+            console.log('Uploading timetable file');
+
+            return $http.post('/api/users/addTimetable', fd,
+                {transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}}).then(handleSuccess, handleError)
         }
 
         function handleSuccess (res){

@@ -1,8 +1,8 @@
 var config = require ('config.json');
 var express = require ('express');
-var multer = require ('multer');
 var router = express.Router();
 var userService = require ('services/user.service');
+var formidable = require ('formidable');
 
 router.post('/authenticate', authenticateUser);
 router.post('/register', registerUser);
@@ -13,6 +13,7 @@ router.post('/addPupil', add_pupil);
 router.get('/GetPupil', GetPupil);
 router.get('/allPupils', GetAllPupils);
 router.post('/addPupilFromFile', add_pupils_from_file);
+router.post('/addTimetable', add_timetable);
 
 module.exports = router;
 
@@ -114,11 +115,23 @@ function add_pupil (req, res){
 }
 
 function add_pupils_from_file(req, res){
-    userService.add_pupils_from_file(req.body)
+    userService.add_pupils_from_file(req)
         .then(function(){
             res.sendStatus(200);
         })
         .catch(function(err){
+            console.log('Error');
             res.status(400).send(err)
+        })
+}
+
+function add_timetable(req, res){
+    userService.add_timetable(req)
+        .then(function(){
+            res.sendStatus(200);
+        })
+        .catch(function(err){
+            console.log('Error');
+            res.status(400).send(err);
         })
 }

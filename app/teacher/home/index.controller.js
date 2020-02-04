@@ -10,8 +10,7 @@
 
         vm.pupils = null;
         vm.add_pupil = add_pupil;
-        vm.files = [];
-        vm.doFileChange = doFileChange;
+        vm.uploadFile = uploadFile;
 
         function add_pupil(){
             UserService.add_pupil(vm.pupils)
@@ -22,45 +21,36 @@
                 .catch(function(error){
                     FlashService.Error(error);
                 });
-            }
+        }
 
-
-
-        function doFileChange(){
-            console.log(vm.files[0]);
-            UserService.add_pupils_from_file(vm.files[0])
+        function uploadFile(){
+            var file = vm.myFile;
+            UserService.add_pupils_from_file(file)
                 .then(function(){
-                    FlashService.Success('The pupls from file were added');
-                    vm.files = []
+                    FlashService.Success('The pupils from file were added');
                 })
                 .catch(function(error){
                     FlashService.Error(error)
                 })
         }
-
     }
 
     angular
         .module('app')
-        .directive('input', function(){
+        .directive('fileModel', ['$parse', function($parse){
             return {
-                restrict: 'E',
-                scope: {
-                    ngModel: '=',
-                    ngChange: '&',
-                    type: '@'
-                }, link: function (scope, element, attrs){
-                    if (scope.type.toLowerCase()!='file'){
-                        return;
-                    }
+                restrict: 'A',
+                link: function(scope, element, attrs){
+                    var model = $parse(attrs.fileModel);
+                    var modelSetter = model.assign;
+
                     element.bind('change', function(){
-                        var files = element[0].files;
-                        scope.ngModel = files;
-                        scope.$apply();
-                        scope.ngChange();
+                        scope.$apply(function(){
+                            modelSetter(scope, element[0].files[0]);
+                        })
                     })
                 }
             }
-        })
+        }])
 
 })();

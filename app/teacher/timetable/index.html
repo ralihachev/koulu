@@ -1,23 +1,3 @@
-<form method="post">
-    <h3>Add the class's timetable</h3>
-    <div class="row">
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <div class="form-group">
-                <label for="class">Class number</label>
-                <input type="text" name="class" id="class" class="form-control" required />
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <div class="form-group">
-                <label for="start_time">Start time</label>
-                <input type="time" name="start_time" id="start_time" class="form-control" required />
-            </div>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <div class="form-group">
-                <label for="end_time">End Time</label>
-                <input type="time" name="end_time" id="end_time" class="form-control" required />
-            </div>
-        </div>
-    </div>
-</form>
+<h2>Upload the file containing the infomation about pupils' timetable</h2>
+<input type="file" file-model="vm.myFile"/>
+<button ng-click="vm.addTimetable()">upload me</button>

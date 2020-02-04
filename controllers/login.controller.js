@@ -26,7 +26,7 @@ router.post('/', function(req, res){
         }
 
         if (!body.token){
-            return res.render('login', {error: 'Username or password is incorrect', username: req.body.username});
+            return res.render('login', {error: 'Username/password is incorrect, or login person not selected', username: req.body.username});
         }
 
         req.session.token = body.token;
